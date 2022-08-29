@@ -1,0 +1,6 @@
+CLIENT: hello mr. Someone i need an expense tracker app. where user can add their income
+& expense as well as they can delete their added item. user can see their initial balance
+also they will be able to see their total expense and income balance as well as their
+added item and the item must have created time..there will be an section where user
+can filter as well as search based on their added income and expense. 
+so this is the requirement.. build this app using react js.....    
