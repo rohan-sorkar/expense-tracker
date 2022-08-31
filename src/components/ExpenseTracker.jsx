@@ -5,11 +5,13 @@ import withReactContent from 'sweetalert2-react-content'
 import AddTransaction from './AddTransaction';
 import Balance from './Balance';
 import History from './History';
+import { useEffect } from 'react';
+const MySwal = withReactContent(Swal);
+import shortid from 'shortid';
 
-const MySwal = withReactContent(Swal)
 
 const ExpenseTracker = () => {
-  const [transactions, setTransaction] = useState([...fakeTransactions]);
+  const [transactions, setTransaction] = useState([]);
   //! calculation the income and expense
   const {income, expense, balance} = transactions.reduce((acc, cur) => {
     if(cur.isIncome) {
@@ -44,6 +46,26 @@ const ExpenseTracker = () => {
     })
     
   }
+  const deleteAllTransaction = () => {
+    MySwal.fire({
+      title: 'Are you sure?',
+      text: "You wanna delete all the history😎!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sure👨'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setTransaction([]);
+        Swal.fire(
+          'Deleted!',
+          'Your history has been deleted.',
+          'success'
+        )
+      }
+    })
+  }
   //! form functionalities
   const [formState, setFormState] = useState({title: '', amount: '', isIncome: true});
   const handleChange = (e) => {
@@ -60,9 +82,10 @@ const ExpenseTracker = () => {
         icon: 'info'
       })
     } else {
+      
       setTransaction([
         {
-          id: id.next().value,
+          id: shortid.generate(),
           ...formState,
           amount: parseInt(formState.amount),
           date: new Date()
@@ -114,7 +137,7 @@ const ExpenseTracker = () => {
         <h1 className='text-2xl text-center font-medium shadow-sm shadow-purple-200'>Expense Tracker</h1>
         <Balance balance={balance} income={income} expense={expense} />
 
-        <History handleSearch={handleSearch} handleFilter={handleFilter} state={state} transformTransaction={transformTransaction} deleteTransaction={deleteTransaction}/>
+        <History handleSearch={handleSearch} handleFilter={handleFilter} state={state} transformTransaction={transformTransaction} deleteTransaction={deleteTransaction} deleteAllTransaction={deleteAllTransaction}/>
 
         <AddTransaction formState={formState} handleChange={handleChange} handleSubmit={handleSubmit} />
       </div>

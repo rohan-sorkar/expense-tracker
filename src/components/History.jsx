@@ -2,7 +2,7 @@ import React from 'react';
 import {RiDeleteBin4Line} from 'react-icons/ri';
 
 const History = (props) => {
-    const {handleSearch, handleFilter, state, transformTransaction, deleteTransaction } = props;
+    const {handleSearch, handleFilter, state, transformTransaction, deleteTransaction, deleteAllTransaction } = props;
 
   return (
     <React.Fragment>
@@ -31,6 +31,11 @@ const History = (props) => {
             </div>
           ))}
         </div>
+        {transformTransaction.length ? (
+          <button onClick={deleteAllTransaction} className='bg-[#F25A5F] text-white rounded-full py-1 px-4 mt-4 hover:bg-red-500 transition'>Delete All History</button>
+        ) : (
+          ''
+        )}
     </React.Fragment>
   )
 }
